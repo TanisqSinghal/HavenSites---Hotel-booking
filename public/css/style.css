@@ -59,7 +59,7 @@ body {
 }
 
 /* Cards */ 
-.card {
+.listing-card {
     border: none !important;
     margin-bottom: 2rem;
 
@@ -111,4 +111,8 @@ body {
 .show-card {
     padding-left: 0;
     padding-right: 0;
+}
+
+.star {
+    color: rgb(255, 214, 110);
 }
