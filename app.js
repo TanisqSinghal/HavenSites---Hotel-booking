@@ -8,6 +8,8 @@ const ejsMate = require('ejs-mate'); // EJS template engine for Express
 const wrapAsync = require('./utils/wrapAsync'); // Custom utility function for async error handling
 const ExpressError = require('./utils/ExpressError'); // Error handling middleware
 const { listingSchema } = require('./schema.js'); // Adjust the path as necessary
+const Review = require('./models/review'); // Adjust the path as necessary
+
 
 const MONGO_URL = 'mongodb://localhost:27017/HavenSites';
 
@@ -98,18 +100,22 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-// app.get('/testlistings', async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: 'Test Listing 2',
-//         description: 'This is a test listing 2.',
-//         price: 1300,
-//         location: "something",
-//         country: "USA",
-//     });
-//     sampleListing.save();
-//     console.log('Sample listing saved:');
-//     res.send("Sample listing saved!");
-// });
+//Reviews part
+
+//post route for reviews
+app.post("/listings/:id/reviews", wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${id}`);
+}));
+
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError(404, "Page not found!"));
