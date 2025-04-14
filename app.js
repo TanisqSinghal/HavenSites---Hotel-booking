@@ -7,10 +7,14 @@ const ejsMate = require('ejs-mate'); // EJS template engine for Express
 const ExpressError = require('./utils/ExpressError'); // Error handling middleware
 const session = require('express-session'); // Session middleware for Express
 const flash = require('connect-flash'); // Flash messages middleware
+const passport = require('passport'); // Authentication middleware
+const localStrategy = require('passport-local'); // Local authentication strategy
 
+const User = require('./models/user'); // User model for authentication
 
-const listings = require('./routes/listing.js'); // Adjust the path as necessary
-const reviews = require('./routes/review.js'); // Adjust the path as necessary
+const listingRouter = require('./routes/listing.js'); // Adjust the path as necessary
+const reviewRouter = require('./routes/review.js'); // Adjust the path as necessary
+const userRouter = require('./routes/user.js'); // Adjust the path as necessary
 
 const MONGO_URL = 'mongodb://localhost:27017/HavenSites';
 
@@ -53,6 +57,14 @@ app.get('/', (req, res) => {
 app.use(session(sessionOptions)); // Initialize session middleware
 app.use(flash()); // Initialize flash middleware
 
+app.use(passport.initialize()); // Initialize passport middleware
+app.use(passport.session()); // Use session for passport authentication
+passport.use(new localStrategy(User.authenticate())); // Use local strategy for authentication
+
+
+passport.serializeUser(User.serializeUser()); // Serialize user for session
+passport.deserializeUser(User.deserializeUser()); // Deserialize user from session
+
 app.use((req, res, next) => {
     res.locals.success = req.flash('success'); // Flash success messages
     res.locals.error = req.flash('error'); // Flash error messages
@@ -60,9 +72,18 @@ app.use((req, res, next) => {
     next(); // Proceed to the next middleware or route handler
 });
 
+// app.get("/demouser", async (req, res) => {
+//     let fakeUser = new User({
+//         email: "student@gmail.com",
+//         username: "student",
+//     })
+//     const registeredUser = await User.register(fakeUser, "student123"); // Register a new user with the username and password
+//     res.send(registeredUser); // Send the registered user as a response
+// })
 
-app.use('/listings', listings); // Use the listings router for all routes starting with /listings
-app.use('/listings/:id/reviews', reviews);
+app.use('/listings', listingRouter); // Use the listings router for all routes starting with /listings
+app.use('/listings/:id/reviews', reviewRouter);
+app.use("/", userRouter)
 
 app.all('*', (req, res, next) => {
     next(new ExpressError(404, "Page not found!"));
