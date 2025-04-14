@@ -74,25 +74,26 @@
 
     <hr />
 
-    <h4> <b> Reviews <b/> </h4>
-
-    <div class="row">
-    <% for(review of listing.reviews) { %>
-      <div class="card col-5 ms-3 mb-3">
-       <div class="card-body">
-        <h5 class="card-title mt-2">Jane Doe</h5>
-        <p class="card-text"> <%= review.comment %></p>
-        <p class="card-text"><%= review.rating %> <i class="fa-solid fa-star star"></i> </p>
-        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-          method="POST" 
-          class="mb-3 mt-2" 
-          >
-         <button class="btn btn-sm btn-dark">Delete</button>
-        </form>
-       </div>
-      </div>
+      <% if (listing.reviews.length === 0) { %>
+        <p><b>No reviews yet!</b></p>
+      <% } else { %>
+        <p class="All-reviews"><b>All Reviews</b></p>
+        <p class="average-rating"><b>Average Rating: </b> <%= (listing.reviews.reduce((acc, review) => acc + review.rating, 0) / listing.reviews.length).toFixed(2) %> <i class="fa-solid fa-star star"></i> </p>
       <% } %>
-    <div/>
+      <div class="row">
+        <% for (review of listing.reviews) { %>
+          <div class="card col-5 ms-3 mb-3">
+            <div class="card-body">
+              <h5 class="card-title mt-2"> Jane Doe </h5>
+              <p class="card-text"><%= review.comment %></p>
+              <p class="card-text"><%= review.rating %> <i class="fa-solid fa-star star"></i> </p>
+            </div>
+            <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+              <button class="btn btn-sm btn-dark">Delete</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
 
   </div>
 </div>

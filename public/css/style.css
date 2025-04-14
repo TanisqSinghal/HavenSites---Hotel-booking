@@ -61,7 +61,7 @@ body {
 /* Cards */ 
 .listing-card {
     border: none !important;
-    margin-bottom: 2rem;
+    margin-bottom: 0.1rem;
 
 }
 
@@ -73,6 +73,7 @@ body {
 
 .card-body {
     padding: 0 !important;
+    margin-bottom: 3rem !important;
 }
 
 .card-text p {
@@ -80,7 +81,8 @@ body {
 }
 
 .listing-link {
-    text-decoration: none;
+    text-decoration: none !important;
+    color: #222222;
 }
 
 /* Card Effect */
@@ -109,10 +111,17 @@ body {
 }
 
 .show-card {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .star {
     color: rgb(255, 214, 110);
+}
+
+.All-reviews {
+    font-size: 1.5rem;
+}
+.average-rating {
+    font-size: 1.2rem;
 }
