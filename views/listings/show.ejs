@@ -12,14 +12,16 @@
     />
     <div class="card-body">
       <p class="card-text">
-        <%= listing.description %> <br />
-        &#8377;<%= listing.price.toLocaleString("en-IN") %> /night <br />
-        <%= listing.location %> <br />
-        <%= listing.country%> <br />
+        <i> Owned by: <%= listing.owner.username %> </i>
       </p>
+      <p class="card-text"><%= listing.description %></p>
+      <p class="card-text">&#8377;<%= listing.price.toLocaleString("en-IN") %> /night</p>
+      <p class="card-text"><%= listing.location %></p>
+      <p class="card-text"><%= listing.country%></p>
     </div>
   </div>
   <br />
+  <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
   <div class="btns">
     <a
       href="/listings/<%= listing._id %>/edit"
@@ -30,11 +32,12 @@
       <button class="btn btn-dark offset-5 dlt-btn">Delete</button>
     </form>
   </div>
-
+  <% } %>
   <!-- Reviews: section -->
-
-  <div class="mb-3">
+  
+  <div class=" mb-3">
     <hr />
+    <% if(currUser) { %>
     <h4>Leave a Review</h4>
     <form
       action="/listings/<%= listing._id %>/reviews"
@@ -71,29 +74,44 @@
 
       <button class="btn btn-outline-dark">Submit</button>
     </form>
-
     <hr />
-
-      <% if (listing.reviews.length === 0) { %>
-        <p><b>No reviews yet!</b></p>
-      <% } else { %>
-        <p class="All-reviews"><b>All Reviews</b></p>
-        <p class="average-rating"><b>Average Rating: </b> <%= (listing.reviews.reduce((acc, review) => acc + review.rating, 0) / listing.reviews.length).toFixed(2) %> <i class="fa-solid fa-star star"></i> </p>
+    <% } %>
+    <% if(!currUser) { %>
+      <form action="/login">
+        <h4 class="card-text"><a href="/login">Login</a> to Drop your review ! </h4>
+      </form>
+      <hr /> 
       <% } %>
-      <div class="row">
-        <% for (review of listing.reviews) { %>
-          <div class="card col-5 ms-3 mb-3">
-            <div class="card-body">
-              <h5 class="card-title mt-2"> Jane Doe </h5>
-              <p class="card-text"><%= review.comment %></p>
-              <p class="card-text"><%= review.rating %> <i class="fa-solid fa-star star"></i> </p>
-            </div>
-            <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-              <button class="btn btn-sm btn-dark">Delete</button>
-            </form>
-          </div>
-        <% } %>
-      </div>
 
+    <% if (listing.reviews.length === 0) { %>
+    <p><b>No reviews yet!</b></p>
+    <% } else { %>
+    <p class="All-reviews"><b>All Reviews</b></p>
+    <p class="average-rating">
+      <b>Average Rating: </b> <%= (listing.reviews.reduce((acc, review) => acc +
+      review.rating, 0) / listing.reviews.length).toFixed(2) %>
+      <i class="fa-solid fa-star star"></i>
+    </p>
+    <% } %>
+    <div class="row">
+      <% for (review of listing.reviews) { %>
+      <div class="card col-5 ms-3 mb-3">
+        <div class="card-body">
+          <h5 class="card-title mt-2">@<%= review.author.username %></h5>
+          <p class="card-text"><%= review.comment %></p>
+          <p class="card-text">
+            <%= review.rating %> <i class="fa-solid fa-star star"></i>
+          </p>
+        </div>
+        <form
+          class="mb-3"
+          method="POST"
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+        >
+          <button class="btn btn-sm btn-dark">Delete</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
   </div>
 </div>

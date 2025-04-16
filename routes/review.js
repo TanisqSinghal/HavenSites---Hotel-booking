@@ -2,27 +2,20 @@ const express = require('express');
 const router = express.Router({ mergeParams: true }); // Merge params from parent route
 const wrapAsync = require('../utils/wrapAsync'); // Custom utility function for async error handling
 const ExpressError = require('../utils/ExpressError'); // Error handling middleware
-const { reviewSchema } = require('../schema.js'); // Adjust the path as necessary
 const Review = require('../models/review'); // Adjust the path as necessary
 const Listing = require('../models/listing'); // Adjust the path as necessary
+const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware.js'); // Adjust the path as necessary
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(','); // how does it working? // error.details is an array of error objects, each containing a message property.
-        throw new ExpressError(400, msg); // Custom error handling
-    } else {
-        next(); // Proceed to the next middleware or route handler
-    }
-};
 
 
 //Reviews part
 //post route for reviews
-router.post("/", validateReview, wrapAsync(async (req, res) => {
+router.post("/", isLoggedIn, validateReview, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     let newReview = new Review(req.body.review);
+    newReview.author = req.user._id; // Assuming you have user authentication set up
+    // console.log(newReview);
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -32,7 +25,7 @@ router.post("/", validateReview, wrapAsync(async (req, res) => {
 }));
 
 //delete route for reviews
-router.delete("/:reviewId", wrapAsync(async (req, res) => {
+router.delete("/:reviewId",isLoggedIn, isReviewAuthor, wrapAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);

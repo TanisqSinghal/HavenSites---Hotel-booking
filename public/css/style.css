@@ -14,7 +14,7 @@ body {
     background-color: white;
 }
 
-.fa-hotel {
+.fa-hotel, .fa-compass {
     color: #662d91;
     font-size: 2rem;
 }

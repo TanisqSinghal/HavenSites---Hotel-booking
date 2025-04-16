@@ -68,7 +68,7 @@ passport.deserializeUser(User.deserializeUser()); // Deserialize user from sessi
 app.use((req, res, next) => {
     res.locals.success = req.flash('success'); // Flash success messages
     res.locals.error = req.flash('error'); // Flash error messages
-    // console.log(error);
+    res.locals.currUser = req.user; // Current user for templates
     next(); // Proceed to the next middleware or route handler
 });
 
