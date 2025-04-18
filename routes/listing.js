@@ -4,13 +4,16 @@ const wrapAsync = require('../utils/wrapAsync'); // Custom utility function for 
 const ExpressError = require('../utils/ExpressError'); // Error handling middleware
 const Listing = require('../models/listing'); // Adjust the path as necessary
 const { isLoggedIn, isOwner, validateListing } = require('../middleware.js');
-
 const listingController = require('../controllers/listings'); // Adjust the path as necessary
+const multer = require('multer');
+const { storage } = require('../cloudConfig.js'); // Adjust the path as necessary
+const upload = multer({ storage });
 
 router
     .route("/")
     .get(wrapAsync(listingController.index)) // Use the index method from the controller
-    .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing)); // Use the createListing method from the controller
+    .post(isLoggedIn, upload.single('listing[image]'), validateListing, wrapAsync(listingController.createListing)); // Use the createListing method from the controller
+
 
 //New route
 router.get("/new", isLoggedIn, listingController.renderNewForm); // Use the renderNewForm method from the controller);
