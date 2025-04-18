@@ -31,7 +31,7 @@ router.get('/login', (req, res) => {
     res.render("users/login.ejs"); // Render the login page
 });
 
-router.post('/login',saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), async (req, res, next) => {
+router.post('/login', saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), async (req, res, next) => {
     req.flash('success', 'Welcome back!'); // Flash a success message
     const redirectUrl = res.locals.redirectUrl || '/listings'; // Redirect URL after login});
     res.redirect(redirectUrl); // Redirect to the listings page

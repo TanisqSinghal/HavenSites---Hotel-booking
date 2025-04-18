@@ -28,9 +28,10 @@ module.exports.isLoggedIn = (req, res, next) => {
 };
 
 module.exports.saveRedirectUrl = (req, res, next) => {
+    // console.log("Redirect URL:", req.session.redirectUrl); // Log the redirect URL for debugging
     if (req.session.redirectUrl) {
         res.locals.redirectUrl = req.session.redirectUrl; // Store the original URL in the session
-    }
+    } 
     next();
 };
 
@@ -74,3 +75,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     }
     next(); // Proceed to the next middleware or route handler
 };
+
+
+
+
