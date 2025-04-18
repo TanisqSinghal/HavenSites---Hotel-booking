@@ -21,7 +21,7 @@ router.get("/new", isLoggedIn, listingController.renderNewForm); // Use the rend
 router
     .route("/:id")
     .get(wrapAsync(listingController.showListing)) // Use the showListing method from the controller
-    .put(isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing)) // Use the updateListing method from the controller
+    .put(isLoggedIn, isOwner, upload.single('listing[image]'), validateListing, wrapAsync(listingController.updateListing)) // Use the updateListing method from the controller
     .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing)); // Use the deleteListing method from the controller
 
 //Edit route

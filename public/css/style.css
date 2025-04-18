@@ -125,3 +125,8 @@ body {
 .average-rating {
     font-size: 1.2rem;
 }
+
+.edit-image img {
+    height: 200px !important;
+    width: 40vh !important;
+}
