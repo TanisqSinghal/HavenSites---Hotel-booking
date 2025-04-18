@@ -6,31 +6,15 @@ const Review = require('../models/review'); // Adjust the path as necessary
 const Listing = require('../models/listing'); // Adjust the path as necessary
 const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware.js'); // Adjust the path as necessary
 
+const reviewController = require('../controllers/reviews'); // Adjust the path as necessary
+const review = require('../models/review');
 
 
 //Reviews part
 //post route for reviews
-router.post("/", isLoggedIn, validateReview, wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    let newReview = new Review(req.body.review);
-    newReview.author = req.user._id; // Assuming you have user authentication set up
-    // console.log(newReview);
-    listing.reviews.push(newReview);
-
-    await newReview.save();
-    await listing.save();
-    req.flash('success', 'Your review has been added!');
-    res.redirect(`/listings/${id}`);
-}));
+router.post("/", isLoggedIn, validateReview, wrapAsync(reviewController.createReview));
 
 //delete route for reviews
-router.delete("/:reviewId",isLoggedIn, isReviewAuthor, wrapAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    req.flash('success', 'Your review has been deleted!');
-    res.redirect(`/listings/${id}`);
-}));
+router.delete("/:reviewId",isLoggedIn, isReviewAuthor, wrapAsync(reviewController.destoryReview));
 
 module.exports = router;
