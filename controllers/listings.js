@@ -24,6 +24,7 @@ module.exports.createListing = async (req, res, next) => {
 
     const location = req.body.listing.location;
     const maptiler = await import('@maptiler/sdk');
+
     maptiler.config.apiKey = `cfannnRv2gCRgPct3GGk`; // Replace with your MapTiler API key
 
     const result = await maptiler.geocoding.forward(location,
