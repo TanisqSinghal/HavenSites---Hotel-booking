@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate'); // EJS template engine for Express
 const ExpressError = require('./utils/ExpressError'); // Error handling middleware
 const session = require('express-session'); // Session middleware for Express
+const MongoStore = require("connect-mongo")
 const flash = require('connect-flash'); // Flash messages middleware
 const passport = require('passport'); // Authentication middleware
 const localStrategy = require('passport-local'); // Local authentication strategy
@@ -22,6 +23,8 @@ const userRouter = require('./routes/user.js'); // Adjust the path as necessary
 
 const MONGO_URL = 'mongodb://localhost:27017/HavenSites';
 
+const dbUrl = process.env.ATLASDB_URL; // MongoDB connection URL
+
 main()
     .then(() => {
         console.log('Connected to MongoDB');
@@ -31,7 +34,7 @@ main()
 
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 
@@ -43,8 +46,22 @@ app.use(methodOverride('_method')); // Middleware to support PUT and DELETE requ
 app.use(express.static(path.join(__dirname, 'public'))); // Middleware to serve static files
 app.engine('ejs', ejsMate); // Use ejsMate for EJS template engine
 
+//create mongostore
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crpto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 60 * 60, // time period in seconds
+});
+
+store.on("error", (e) => {
+    console.log("Session store error", e);
+});
+
 const sessionOptions = {
-    secret: "mysupersecretcode",
+    store, // Use the MongoDB store for sessions
+    secret: process.env.SECRET, // Secret for signing the session ID cookie
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -57,6 +74,8 @@ const sessionOptions = {
 // app.get('/', (req, res) => {
 //     res.send('Hello World!');
 // });
+
+
 
 app.use(session(sessionOptions)); // Initialize session middleware
 app.use(flash()); // Initialize flash middleware
