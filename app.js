@@ -54,9 +54,9 @@ const sessionOptions = {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello World!');
+// });
 
 app.use(session(sessionOptions)); // Initialize session middleware
 app.use(flash()); // Initialize flash middleware
