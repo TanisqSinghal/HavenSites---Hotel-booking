@@ -16,7 +16,7 @@ body {
 
 .fa-hotel,
 .fa-compass {
-  color: #662d91;
+  color: #f80d0d;
   font-size: 2rem;
 }
 
@@ -98,7 +98,7 @@ body {
 .add-btn,
 .edit-btn,
 .dlt-btn {
-  background-color: #662d91 !important;
+  background-color: #f80d0d !important;
   border: none !important;
 }
 
