@@ -1,5 +1,5 @@
 const Listing = require("../models/listing");
-
+const fetch = require("node-fetch");
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -21,29 +21,48 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
+    try {
+        const location = req.body.listing.location;
 
-    // const location = req.body.listing.location;
-    // const maptiler = await import('@maptiler/sdk');
+        // Geocode using OpenStreetMap (Nominatim)
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json`);
+        const data = await response.json();
 
-    // maptiler.config.apiKey = `cfannnRv2gCRgPct3GGk`; // Replace with your MapTiler API key
+        if (data.length === 0) {
+            req.flash("error", "Location not found!");
+            return res.redirect("/listings/new");
+        }
 
-    // const result = await maptiler.geocoding.forward(location,
-    //     {
-    //         limit: 1,
-    //     })
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
 
-    let url = req.file.path;
-    let filename = req.file.filename;
-    console.log(url, filename);
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id; // Set the owner to the currently logged-in user
-    newListing.image = { url, filename }; // Set the image URL to the uploaded file path
-    
-    // newListing.geometry = result.features[0].geometry; // Set the geometry to the geocoding result
-    let savedListing = await newListing.save();
-    console.log(savedListing);
-    req.flash('success', 'Your listing is being added!');
-    res.redirect("/listings");
+
+
+
+
+        let url = req.file.path;
+        let filename = req.file.filename;
+        let { category } = req.body.listing;
+        const newListing = new Listing(req.body.listing);
+        newListing.owner = req.user._id;
+        newListing.image = { url, filename };
+        // newListing.category= category;
+
+
+        newListing.geometry = {
+            type: "Point",
+            coordinates: [lon, lat]
+        };
+
+
+        let savedListing = await newListing.save();
+        console.log(savedListing);
+        req.flash("success", "New Listing Created!");
+        return res.redirect("/listings");
+
+    } catch (err) {
+        next(err);
+    }
 };
 
 module.exports.renderEditForm = async (req, res) => {

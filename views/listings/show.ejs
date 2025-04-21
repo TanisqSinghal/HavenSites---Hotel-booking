@@ -1,8 +1,7 @@
 <% layout("./Layouts/boilerplate") %>
 
 <script  >
-  const mapleaf = require('mapleaflet');
-const listing = JSON.parse('<%- JSON.stringify(listing) %>');
+   window.listingData = JSON.parse('<%- JSON.stringify(listing) %>');
 </script>
 
 <div class="row mt-3">
