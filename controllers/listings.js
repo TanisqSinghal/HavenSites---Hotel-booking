@@ -22,15 +22,15 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
 
-    const location = req.body.listing.location;
-    const maptiler = await import('@maptiler/sdk');
+    // const location = req.body.listing.location;
+    // const maptiler = await import('@maptiler/sdk');
 
-    maptiler.config.apiKey = `cfannnRv2gCRgPct3GGk`; // Replace with your MapTiler API key
+    // maptiler.config.apiKey = `cfannnRv2gCRgPct3GGk`; // Replace with your MapTiler API key
 
-    const result = await maptiler.geocoding.forward(location,
-        {
-            limit: 1,
-        })
+    // const result = await maptiler.geocoding.forward(location,
+    //     {
+    //         limit: 1,
+    //     })
 
     let url = req.file.path;
     let filename = req.file.filename;
@@ -39,7 +39,7 @@ module.exports.createListing = async (req, res, next) => {
     newListing.owner = req.user._id; // Set the owner to the currently logged-in user
     newListing.image = { url, filename }; // Set the image URL to the uploaded file path
     
-    newListing.geometry = result.features[0].geometry; // Set the geometry to the geocoding result
+    // newListing.geometry = result.features[0].geometry; // Set the geometry to the geocoding result
     let savedListing = await newListing.save();
     console.log(savedListing);
     req.flash('success', 'Your listing is being added!');

@@ -1,5 +1,5 @@
 {
-  "engines":{
+  "engines": {
     "node": "20.17.0"
   },
   "name": "lacko",
@@ -13,7 +13,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@maptiler/sdk": "^3.1.1",
     "cloudinary": "^1.21.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
@@ -24,7 +23,8 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "joi": "^17.13.3",
-    "maplibre-gl": "^5.3.1",
+    "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^3.1.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.12.2",
     "multer": "^1.4.5-lts.2",

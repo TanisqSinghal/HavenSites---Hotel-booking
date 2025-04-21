@@ -1,9 +1,8 @@
 <% layout("./Layouts/boilerplate") %>
 
 <script  >
-  const mapToken= "<%= process.env.MAP_TOKEN %>";
+  const mapleaf = require('mapleaflet');
 const listing = JSON.parse('<%- JSON.stringify(listing) %>');
-console.log(mapToken);
 </script>
 
 <div class="row mt-3">
@@ -117,6 +116,11 @@ console.log(mapToken);
       <div id="map"></div>
     </div>
 
-    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+    <!-- <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script> -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="/js/map.js"></script>
     <script src="/controllers/listings.js"></script>
+    
