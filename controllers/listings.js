@@ -25,7 +25,11 @@ module.exports.createListing = async (req, res, next) => {
         const location = req.body.listing.location;
 
         // Geocode using OpenStreetMap (Nominatim)
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json`);
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json`, {
+            headers: {
+                'User-Agent': 'Wanderlust/1.0 (tanishaksinghal785@gmail.com)'
+            }
+        });
         const data = await response.json();
 
         if (data.length === 0) {
