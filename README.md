@@ -4,9 +4,10 @@ A full-featured Airbnb clone built with Node.js, Express, EJS, and MongoDB. Have
 
 ---
 # 👥 Authors
-Tanishak Singhal(https://www.linkedin.com/in/tanishak-singhal-31462a275/)
 
-Rahul Sharma(https://www.linkedin.com/in/tanishak-singhal-31462a275/)
+- [Tanishak Singhal](https://www.linkedin.com/in/tanishak-singhal-31462a275/)
+- [Rahul Sharma](https://www.linkedin.com/in/rahul-sharma-78142119b/)
+
 
 ## 🚀 Tech Stack
 
