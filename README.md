@@ -4,9 +4,9 @@ A full-featured Airbnb clone built with Node.js, Express, EJS, and MongoDB. Have
 
 ---
 # 👥 Authors
-Tanishak Singhal[https://www.linkedin.com/in/tanishak-singhal-31462a275/]
+Tanishak Singhal(https://www.linkedin.com/in/tanishak-singhal-31462a275/)
 
-Rahul Sharma[https://www.linkedin.com/in/tanishak-singhal-31462a275/]
+Rahul Sharma(https://www.linkedin.com/in/tanishak-singhal-31462a275/)
 
 ## 🚀 Tech Stack
 
@@ -27,14 +27,19 @@ Rahul Sharma[https://www.linkedin.com/in/tanishak-singhal-31462a275/]
 ```bash
 git clone https://github.com/your-username/havensites.git
 cd havensites
+```
 
-# 2. Install Dependencies
+### 2. Install Dependencies
+
+```bash
 Install the required packages listed in package.json:
 `npm install`
+```
 
-# 3. Setup Environment Variables
+### 3. Setup Environment Variables
 Create a .env file in the root and add the following:
 
+```bash
 `CLOUD_NAME=your_cloudinary_name
 CLOUD_API_KEY=your_cloudinary_api_key
 CLOUD_API_SECRET=your_cloudinary_api_secret
@@ -42,8 +47,9 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 ATLASDB_URL=your_mongodb_connection_string
 
 SECRET=your_session_secret`
+```
 
-# 4.🛠️ Features
+### 4.🛠️ Features
 ✅ Full CRUD operations for listings and reviews
 
 🗂️ MVC structure for scalable project organization
@@ -66,6 +72,6 @@ SECRET=your_session_secret`
 
 🎯 Listing locations visible on dynamic maps
 
-# 5.🐞 Known Bugs
+### 5.🐞 Known Bugs
 ❗ 80% responsive — still working on full mobile support
 
