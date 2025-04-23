@@ -31,22 +31,23 @@ cd havensites
 
 ### 2. Install Dependencies
 
-```bash
 Install the required packages listed in package.json:
-`npm install`
+
+```bash
+npm install
 ```
 
 ### 3. Setup Environment Variables
 Create a .env file in the root and add the following:
 
 ```bash
-`CLOUD_NAME=your_cloudinary_name
+CLOUD_NAME=your_cloudinary_name
 CLOUD_API_KEY=your_cloudinary_api_key
 CLOUD_API_SECRET=your_cloudinary_api_secret
 
 ATLASDB_URL=your_mongodb_connection_string
 
-SECRET=your_session_secret`
+SECRET=your_session_secret
 ```
 
 ### 4.🛠️ Features
