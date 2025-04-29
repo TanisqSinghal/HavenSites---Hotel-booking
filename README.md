@@ -51,6 +51,60 @@ ATLASDB_URL=your_mongodb_connection_string
 SECRET=your_session_secret
 ```
 
+### 4. Inside controllers/listings.js 
+Inside your listings.js in controller in your create listing controller (at line 23 in my repo) change you email instead of my email, for example: 
+
+```bash
+module.exports.createListing = async (req, res, next) => {
+    try {
+        const location = req.body.listing.location;
+
+        // Geocode using OpenStreetMap (Nominatim)
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json`, {
+            headers: {
+                'User-Agent': 'Wanderlust/1.0 (tanishaksinghal785@gmail.com)' // change with your mail
+            }
+        });
+        const data = await response.json();
+
+        if (data.length === 0) {
+            req.flash("error", "Location not found!");
+            return res.redirect("/listings/new");
+        }
+
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+
+
+
+
+
+        let url = req.file.path;
+        let filename = req.file.filename;
+        let { category } = req.body.listing;
+        const newListing = new Listing(req.body.listing);
+        newListing.owner = req.user._id;
+        newListing.image = { url, filename };
+        // newListing.category= category;
+
+
+        newListing.geometry = {
+            type: "Point",
+            coordinates: [lon, lat]
+        };
+
+
+        let savedListing = await newListing.save();
+        console.log(savedListing);
+        req.flash("success", "New Listing Created!");
+        return res.redirect("/listings");
+
+    } catch (err) {
+        next(err);
+    }
+};
+```
+
 ### 4.🛠️ Features
 ✅ Full CRUD operations for listings and reviews
 
