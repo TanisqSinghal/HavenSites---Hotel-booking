@@ -74,6 +74,12 @@ SECRET=your_session_secret
 
 🎯 Listing locations visible on dynamic maps
 
+### 5. Some Glimpses
+![alt text](<Screenshot 2025-04-29 095258.png>)
+![alt text](<Screenshot 2025-04-29 095550.png>)
+![alt text](<Screenshot 2025-04-29 095634.png>)
+
+
 ### 5.🐞 Known Bugs
 ❗ 80% responsive — still working on full mobile support
 
